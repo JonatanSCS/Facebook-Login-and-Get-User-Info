@@ -13,19 +13,21 @@ class NextViewController: UIViewController {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var idLabel: UILabel!
     @IBOutlet var userImage: UIImageView!
+    @IBOutlet var numberLabel: UILabel!
     
     var urlFromView: String = ""
     var userNameFromView: String = ""
     var userIDFromView: String = ""
+    var numberFromView: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         var myImage =  UIImage(data: NSData(contentsOfURL: NSURL(string: urlFromView)!)!)
         self.userImage.image = myImage
    
         nameLabel.text = userNameFromView
         idLabel.text = userIDFromView
+        numberLabel.text = numberFromView
     }
 
     override func didReceiveMemoryWarning() {

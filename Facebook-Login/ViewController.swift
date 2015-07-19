@@ -16,6 +16,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     var urlNextView: String = ""
     var userName: String = ""
     var userID: String = ""
+    var userNumberFriends: String = ""
     
     @IBOutlet var userImage: UIImageView!
     
@@ -30,6 +31,47 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         else {
             println("Logged in")
+            
+            /*
+            var birthayRequest = FBSDKGraphRequest(graphPath:"/me/birthday", parameters: nil);
+            birthayRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                
+                if error == nil {
+                    println("Friends are : \(result)")
+                   
+                    
+                    
+                } else {
+                    
+                    println("Error Getting Friends \(error)");
+                    
+                }
+            }
+
+            */
+            
+            var fbRequest = FBSDKGraphRequest(graphPath:"/me/friends", parameters: nil);
+            fbRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                
+                if error == nil {
+                    //println("Friends are : \(result)")
+                    let json = JSON(result!)
+                    var summary = json["summary"]
+                    println(summary)
+                    var numberJSON = summary["total_count"]
+                    var number = numberJSON.stringValue
+                    println(number)
+                    self.userNumberFriends = number
+                    
+                    
+                } else {
+                    
+                    println("Error Getting Friends \(error)");
+                    
+                }
+            }
+  
+            
             
             let userRequest = FBSDKGraphRequest(graphPath: "/me/", parameters: nil)
             userRequest.startWithCompletionHandler({
@@ -116,6 +158,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         nextScene.urlFromView = urlNextView
         nextScene.userNameFromView = userName
         nextScene.userIDFromView = userID
+        nextScene.numberFromView = userNumberFriends
     }
 
 }
